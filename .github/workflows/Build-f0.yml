@@ -46,6 +46,16 @@ jobs:
         env:
           MAKEFLAGS: "-j4"  # adjust parallelism if desired
 
+      - name: Verify outputs
+        run: |
+          set -euo pipefail
+          ls -l firmware/for_rusefi || true
+          ls -l firmware/boards/f0_module/deliver/f0_module || true
+          test -f firmware/for_rusefi/wideband_image.h
+          test -f firmware/for_rusefi/wideband_image_with_bl.bin
+          test -f firmware/boards/f0_module/deliver/f0_module/wideband_image.h
+          test -f firmware/boards/f0_module/deliver/f0_module/wideband_image_with_bl.bin
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
